@@ -42,9 +42,7 @@ app.use(express.json())
 app.use(cookieParser())
 // app.use(cors({ origin: ["http://localhost:5173"], credentials: true }))
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000")
-})
+
 
 // import routes
 import authRouter from "./routes/auth.route.js"
@@ -55,8 +53,9 @@ app.use("/api/note", limiter, noteRouter)
 
 if(process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/frontend/dist")))
+  app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
-  app.get("*", (req,res) => {
+  app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"))
   })
 }
@@ -71,4 +70,8 @@ app.use((err, req, res, next) => {
     statusCode,
     message,
   })
+})
+
+app.listen(3000, () => {
+  console.log("Server is running on port 3000")
 })
